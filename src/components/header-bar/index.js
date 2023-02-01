@@ -23,7 +23,7 @@ const HeaderBar = ({
   const navigate = useNavigate();
 
   const goBack = () => {
-    navigate("/playlist/2");
+    navigate(-1);
   };
 
   return (

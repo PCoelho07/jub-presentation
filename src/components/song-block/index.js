@@ -17,11 +17,11 @@ const SongBlock = ({
 
   const parseBlock = (text) => {
     const parsedTextList = [];
-    const splitedText = text.split("<br>");
+    const splitedText = text.replaceAll("</p>", "").split("<p>").filter((el) => el !== "" && el !== " " && el !== undefined);
     const isNotOnlyChords =
       text
         .split(/\[.*?\]/)
-        .filter((el) => el.trim() !== "<br>")
+        .filter((el) => !["<br>", "<p>", "</p>"].includes(el.trim()))
         .filter((el) => el !== "" && el !== " ").length > 0;
 
     if (isNotOnlyChords) {
