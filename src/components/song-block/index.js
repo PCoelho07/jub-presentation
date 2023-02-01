@@ -1,4 +1,4 @@
-import { Avatar, Box, Divider, Heading, Text, VStack } from "@chakra-ui/react";
+import { Avatar, Box, Heading, Text, VStack } from "@chakra-ui/react";
 import { useMemo } from "react";
 import SongBlockChord from "../song-block-chord";
 import SongBlockComment from "../song-block-comment";
