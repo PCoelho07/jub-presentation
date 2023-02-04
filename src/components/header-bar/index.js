@@ -11,6 +11,7 @@ import {
 import { MdKeyboardBackspace } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Link from "react-scroll/modules/components/Link";
+import { typeMapping } from "../../types/song-block";
 
 const HeaderBar = ({
   songTitle,
@@ -71,15 +72,15 @@ const HeaderBar = ({
           {songBlocks.map((songBlock, index) => (
             <Link
               key={index}
-              to={`${songBlock.id}`}
+              to={`${index}`}
               spy={true}
               smooth={true}
               duration={300}
               offset={-200}
             >
               <Avatar
-                name={songBlock.name}
-                onClick={() => handleClickMap(songBlock)}
+                name={typeMapping(songBlock.name)}
+                onClick={() => handleClickMap(index)}
                 cursor="pointer"
                 bg={"green.400"}
                 color={"white"}

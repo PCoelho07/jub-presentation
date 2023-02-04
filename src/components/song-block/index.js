@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import SongBlockChord from "../song-block-chord";
 import SongBlockComment from "../song-block-comment";
 import reactStringReplace from "react-string-replace";
+import { typeMapping } from "../../types/song-block";
 
 const SongBlock = ({
   title,
@@ -74,9 +75,9 @@ const SongBlock = ({
         display={"flex"}
         alignItems="center"
       >
-        <Avatar name={title} size={"xs"} mr="2" bg="green.400" />
+        <Avatar name={typeMapping(title)} size={"xs"} mr="2" bg="green.400" />
         <Text textTransform={"uppercase"} fontWeight="normal">
-          {title}
+          {typeMapping(title)}
         </Text>
         <Text ml="2" fontSize="larger" fontWeight={"bold"}>
           {repeat !== 0 ? `${repeat}x` : null}

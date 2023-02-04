@@ -10,7 +10,6 @@ import api from "./../../services/api";
 
 function Song() {
   const { id } = useParams();
-  const [songBlocks, setSongBlocks] = useState([]);
   const [song, setSong] = useState({
     name: "",
     timeSig: "",
@@ -33,38 +32,14 @@ function Song() {
       }
     };
     fetchSong()
-    // setSong({
-    //   guide: {
-    //     songBlocks: [
-    //       {
-    //         id: 1,
-    //         name: "Introdução",
-    //         text: "<p>[A] [D] [A] [D]</p>",
-    //         comments: "Solo guitarra.",
-    //         shouldRepeat: 2,
-    //       },
-    //       {
-    //         id: 2,
-    //         name: "Verso 1",
-    //         text: "<p>[A]Que quebra o jugo do meu pecado<br> [D]Tão mais forte é o meu amado<br> [F#m7]O rei da glória, [E]o grande rei dos reis [D7M]</p>",
-    //         comments: "Solo guitarra.",
-    //       },
-    //       {
-    //         id: 3,
-    //         name: "Refrão",
-    //         text: "<p>[A]Oh que tremenda graça<br> [D]Oh que infalível amor<br> [F#m7]Tomou o meu lugar<br> [E]A minha cruz levou</p>",
-    //       },
-    //     ],
-    //   },
-    // });
   }, []);
 
   const isHighlighted = (songblock) => {
-    if (!songBlockHighlighted) {
+    if (songBlockHighlighted === null) {
       return false;
     }
 
-    return songblock.id === songBlockHighlighted.id;
+    return songblock === songBlockHighlighted;
   };
 
   const handleClickMap = (songBlock) => {
@@ -95,7 +70,7 @@ function Song() {
           songKey={song.key}
           bpm={song.bpm}
           timeSig={song.timeSig}
-          songBlocks={song.songBlocks}
+          songBlocks={song.guide.songBlocks}
           handleClickMap={handleClickMap}
         />
       </Flex>
@@ -105,7 +80,7 @@ function Song() {
             ? song.guide.songBlocks.map((songBlock, index) => (
                 <Element id={`${index}`} key={index}>
                   <SongBlock
-                    highlight={isHighlighted(songBlock)}
+                    highlight={isHighlighted(index)}
                     title={songBlock.name}
                     text={songBlock.text}
                     comments={songBlock.comments ?? ""}

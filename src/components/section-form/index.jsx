@@ -1,5 +1,14 @@
-import { Box, CloseButton, Flex, Input, Select } from "@chakra-ui/react";
+import {
+  Box,
+  CloseButton,
+  Flex,
+  Heading,
+  Input,
+  Select,
+} from "@chakra-ui/react";
 import CustomEditor from "../editor";
+import SongBlock from "../song-block";
+import { typeMapping, TYPES } from "../../types/song-block";
 
 const SectionForm = ({
   section,
@@ -14,15 +23,7 @@ const SectionForm = ({
     );
   };
 
-  const onChangeSectionOrder = (newOrder, sectionIndex) => {
-    // const section = sections[sectionIndex];
-    // const sectionsOrderChanged = sections.slice(
-    //   newOrder,
-    //   0,
-    //   sections.slice(section.order, 1)[0]
-    // );
-    // onChangeSection(sectionsOrderChanged);
-  };
+  const onChangeSectionOrder = (newOrder, sectionIndex) => {};
 
   const onChangeSectionType = (sectionType, sectionIndex) => {
     onChangeSection(
@@ -50,19 +51,18 @@ const SectionForm = ({
       pt="4"
       justifyContent={"space-between"}
     >
-      <Box w="2xl" bg={"white"} borderRadius="6" p="4" mb="4">
+      <Box w="2xl" bg={"white"} borderRadius="6" p="4" mb="4" h="fit-content">
         <Flex justifyContent={"space-between"} mb="2">
           <Select
             w="fit-content"
             variant="outline"
             placeholder="Tipo"
-            value={section.type}
+            value={section.name}
             onChange={(ev) => onChangeSectionType(ev.target.value, index)}
           >
-            <option value="intro">Intro</option>
-            <option value="chorus">Refrão</option>
-            <option value="verse">Verso</option>
-            <option value="bridge">Ponte</option>
+            {Object.keys(TYPES).map((property, index) => (
+              <option value={property} key={index}>{typeMapping(property)}</option>
+            ))}
           </Select>
           <Select
             w="fit-content"
@@ -79,11 +79,9 @@ const SectionForm = ({
             )}
           </Select>
         </Flex>
-        {/* <Textarea
-                onChange={(ev) => onChangeSectionContent(ev.target.value, index)}
-              /> */}
         <CustomEditor
           name={index}
+          content={section.text}
           onChange={(contentHtml) => {
             onChangeSectionContent(contentHtml, index);
           }}
@@ -95,7 +93,15 @@ const SectionForm = ({
           onChange={(ev) => onChangeComment(ev.target.value, index)}
         />
       </Box>
-      <CloseButton size="lg" onClick={() => removeSection(index)} />
+      <Box bgColor="whiteAlpha.800" w="2xl" p="10" borderRadius={"8"} mb="4">
+        <SongBlock
+          title={section.name}
+          text={section.text}
+          comments={section.comments ?? ""}
+          repeat={section.shouldRepeat}
+        />
+      </Box>
+      <CloseButton size="lg" mt="2" onClick={() => removeSection(index)} />
     </Flex>
   );
 };
