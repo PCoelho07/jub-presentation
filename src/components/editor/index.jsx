@@ -27,18 +27,6 @@ function CustomEditor({ onChange, content, name }) {
     setFirstContent(true)
   }, [content, editor])
 
-  // useEffect(() => {
-  //   if (!content) {
-  //     return
-  //   }
-
-  //   if (!editor) {
-  //     return
-  //   }
-
-  //   editor.commands.setContent(content)
-  // }, [])
-
   return (<><EditorContent editor={editor} name={name} /></>);
 }
 

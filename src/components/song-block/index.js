@@ -17,31 +17,39 @@ const SongBlock = ({
   };
 
   const parseBlock = (text) => {
-    const parsedTextList = [];
-    const splitedText = text.replaceAll("</p>", "").split("<p>").filter((el) => el !== "" && el !== " " && el !== undefined);
-    const isNotOnlyChords =
+    let parsedTextList = [];
+    const splitedText = text
+      .replaceAll("</p>", "")
+      .split("<p>")
+      .filter((el) => el !== "" && el !== " " && el !== undefined);
+
+    const isOnlyChords =
       text
         .split(/\[.*?\]/)
+        .map(el => el.replace(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g, ""))
+        .map(el => el.replace(/\(([^\)]+)\)/g, ""))
         .filter((el) => !["<br>", "<p>", "</p>"].includes(el.trim()))
-        .filter((el) => el !== "" && el !== " ").length > 0;
+        .filter((el) => el !== "" && el !== " ").length === 0;
 
-    if (isNotOnlyChords) {
-      splitedText.forEach((el) =>
-        parsedTextList.push(
-          reactStringReplace(el, /\[(.*?)\]/, (match, i) => (
-            <SongBlockChord key={i} chord={match} />
-          ))
-        )
+    if (!isOnlyChords) {
+      parsedTextList = splitedText.map((el) =>
+        reactStringReplace(el, /\[(.*?)\]/, (match, i) => (
+          <SongBlockChord key={i} chord={match} />
+        ))
       );
     } else {
-      splitedText.forEach((el) =>
-        parsedTextList.push(
-          reactStringReplace(el, /\[(.*?)\]/, (match, i) => (
-            <SongBlockChord key={i} chord={match} notAbsolute={true} />
-          ))
-        )
+      parsedTextList = splitedText.map((el) =>
+        reactStringReplace(el, /\[(.*?)\]/, (match, i) => (
+          <SongBlockChord key={i} chord={match} notAbsolute={true} />
+        ))
       );
     }
+
+    parsedTextList = parsedTextList.map((parsedText) =>
+      reactStringReplace(parsedText, /\(([^\)]+)\)/, (match, i) => (
+        <CommentBlock key={i} text={match} />
+      ))
+    );
 
     return (
       <VStack align={"start"} spacing="8" pt="4">
@@ -88,5 +96,16 @@ const SongBlock = ({
     </Box>
   );
 };
+
+const CommentBlock = ({ text }) => (
+  <Text
+    color={"orange.400"}
+    fontStyle="italic"
+    fontWeight={"bold"}
+    fontSize="md"
+  >
+    {text}
+  </Text>
+);
 
 export default SongBlock;

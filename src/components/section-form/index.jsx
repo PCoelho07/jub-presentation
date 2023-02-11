@@ -2,7 +2,6 @@ import {
   Box,
   CloseButton,
   Flex,
-  Heading,
   Input,
   Select,
 } from "@chakra-ui/react";
@@ -93,7 +92,7 @@ const SectionForm = ({
           onChange={(ev) => onChangeComment(ev.target.value, index)}
         />
       </Box>
-      <Box bgColor="whiteAlpha.800" w="2xl" p="10" borderRadius={"8"} mb="4">
+      <Box bgColor="whiteAlpha.800" w="2xl" p="4" borderRadius={"8"} mb="4" ml="2">
         <SongBlock
           title={section.name}
           text={section.text}
